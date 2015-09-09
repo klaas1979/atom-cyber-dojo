@@ -1,0 +1,21 @@
+{
+  "name": "cyber-dojo",
+  "main": "./lib/cyber-dojo",
+  "version": "0.1.0",
+  "description": "Practice programming using Atom as editor for Cyber-Dojo.org",
+  "keywords": [ "CyberDojo", "Cyber-Dojo", "Coding", "Dojo", "Kata"
+  ],
+  "activationCommands": {
+    "atom-workspace": "cyber-dojo:toggle"
+  },
+  "repository": "https://github.com/klaas1979/atom-cyber-dojo",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-space-pen-views": ">=2.0.0",
+    "request": ">=2.61.0",
+    "tough-cookie": ">=2.0.0"
+  }
+}

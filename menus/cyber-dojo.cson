@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Run tests for Cyber-Dojo'
+      'command': 'cyber-dojo:run-tests'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'cyber-dojo'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'cyber-dojo:toggle'
+        }
+      ]
+    ]
+  }
+]
