@@ -1,9 +1,14 @@
 {
   "name": "cyber-dojo",
   "main": "./lib/cyber-dojo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Practice programming using Atom as editor for Cyber-Dojo.org",
-  "keywords": [ "CyberDojo", "Cyber-Dojo", "Coding", "Dojo", "Kata"
+  "keywords": [
+    "CyberDojo",
+    "Cyber-Dojo",
+    "Coding",
+    "Dojo",
+    "Kata"
   ],
   "activationCommands": {
     "atom-workspace": "cyber-dojo:toggle"
