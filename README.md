@@ -30,4 +30,4 @@ Atom package page: [atom-cyber-dojo]
 [blog-cyber-dojo]: http://blog.cyber-dojo.org/ (Blog Cyber-Dojo)
 [cyber-dojo-org]: http://cyber-dojo.org (Cyber-Dojo.org)
 [atom-cyber-dojo]: http://atom.io/packages/cyber-dojo (cyber-dojo)
-[pull-request]: [https://github.com/JonJagger/cyber-dojo/pull/62] (pull request)
+[pull-request]: https://github.com/JonJagger/cyber-dojo/pull/62 (pull request)
