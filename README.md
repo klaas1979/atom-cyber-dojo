@@ -11,7 +11,7 @@ Checkout the [Cyber-Dojo Blog][blog-cyber-dojo] for more information.
 
 # Usage
 1. Use your browser as usual and enter an existing Dojo. Copy the URL for your
-Avatar for example *http://cyber-dojo.org/kata/edit/97356E?avatar=frog*
+Avatar for example *http://cyber-dojo.org/kata/edit/3613A6?avatar=deer*
 2. In Atom toggle cyber-dojo and enter your URL.
 3. If not configured already: you have to select an cyber-dojo workspace. *Beware* all files within the selected workspace directory will be deleted when you enter a Dojo!
 4. Start coding, add and delete files.
@@ -24,7 +24,7 @@ Cyber-Dojo Homepage: [Cyber-Dojo.org][cyber-dojo-org]
 
 Cyber-Dojo Blog: [Cyber-Dojo Blog][blog-cyber-dojo]
 
-Atom package page: [atom-cyber-dojo]
+Atom package page: [Atom cyber-dojo package][atom-cyber-dojo]
 
 [atom]: https://atom.io/ (Atom)
 [blog-cyber-dojo]: http://blog.cyber-dojo.org/ (Blog Cyber-Dojo)

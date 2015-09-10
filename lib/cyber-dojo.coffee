@@ -18,7 +18,6 @@ module.exports =
 # 4. resync with server -> other than 'toggle'
 # 5. waiting for JonJagger to accept pull request with REST API for this package
 # 6. create some tests for the plugin
-# 7. publish the plugin
 
   activate: (serializedState) ->
     @cyberDojoSettings = new CyberDojoSettings()

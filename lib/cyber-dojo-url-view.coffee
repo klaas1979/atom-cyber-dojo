@@ -44,8 +44,7 @@ class CyberDojoUrlView extends View
     if matched
       @validUrlEnteredCallback matched[1], matched[2], matched[3]
     else
-      atom.notifications?.addError
-        "'#{url}' is not a valid cyber-dojo URL, pattern: #{urlPattern}"
+      atom.notifications?.addError "'#{url}' is not a valid cyber-dojo URL, pattern: #{urlPattern}"
     @close()
 
   storeFocusedElement: ->
