@@ -3,9 +3,6 @@
 Use the [Atom editor][atom] to practice programming with [Cyber-Dojo.org][cyber-dojo-org].
 Open a Kata for your Avatar create, edit and delete files and run your tests on the [cyber-dojo server][cyber-dojo-org].
 
-# Important
-right now the plugin needs a small modification of the Cyber-Dojo server. The [pull-request] must first be approved an deployed.
-
 # What is a Coding Dojo
 Checkout the [Cyber-Dojo Blog][blog-cyber-dojo] for more information.
 
