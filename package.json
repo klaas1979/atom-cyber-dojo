@@ -1,7 +1,7 @@
 {
   "name": "cyber-dojo",
   "main": "./lib/cyber-dojo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Practice programming using Atom as editor for Cyber-Dojo.org",
   "keywords": [
     "CyberDojo",
