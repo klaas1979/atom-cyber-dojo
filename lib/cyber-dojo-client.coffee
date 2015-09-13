@@ -14,6 +14,7 @@ class CyberDojoClient
   # Stores the initial server file state and updates the workspace
   # files on disk.
   saveState: (files) ->
+    @initialServerState = {}
     for name, content of files
       @initialServerState[name] = content
     @removeDeletedFiles()
@@ -50,7 +51,7 @@ class CyberDojoClient
     workspaceFiles = @getWorkspaceFiles()
     fileReadPromises = workspaceFiles.map (file) ->
       file.read().then (content) ->
-        { filename: file.getBaseName(), content:content }
+        { filename: file.getBaseName(), content: content }
     Promise.all(fileReadPromises).then (fileContents) ->
       for fileContent in fileContents
         result[fileContent['filename']] = {

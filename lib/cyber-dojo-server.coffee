@@ -40,11 +40,14 @@ class CyberDojoServer
     for filename, data of localState
       formData["file_content[#{filename}]"] = data['content']
       if data['deleted']
+        console.log "'#{filename}' is deleted"
         formData["file_hashes_incoming[#{filename}]"] = 0
       else if data['changed']
+        console.log "'#{filename}' is changed"
         formData["file_hashes_outgoing[#{filename}]"] = 1
         formData["file_hashes_incoming[#{filename}]"] = 0
       else
+        console.log "'#{filename}' is unchanged"
         formData["file_hashes_outgoing[#{filename}]"] = 0
         formData["file_hashes_incoming[#{filename}]"] = 0
     console.log formData

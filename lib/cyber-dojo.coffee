@@ -60,7 +60,6 @@ module.exports =
 
   deactivate: ->
     @cyberDojoUrlView.destroy()
-    @cyberDojoRunTestsProgressElement.destroy()
 
   # TODO
   serialize: ->
