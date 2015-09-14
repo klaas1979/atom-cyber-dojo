@@ -3,12 +3,21 @@ request = require 'request' # NPM package
 module.exports =
 class CyberDojoServer
 
-  constructor: ->
-    @serverState = {}
-    @jar = request.jar()
-    @client = null
-    @dojoId = null
-    @avatar = null
+  constructor: (serializedState) ->
+    @serverState = serializedState?['serverState'] || {}
+    @jar = serializedState?['jar'] || request.jar()
+    @serverUrl = serializedState?['serverUrl'] || null
+    @dojoId = serializedState?['dojoId'] || null
+    @avatar = serializedState?['avatar'] || null
+
+  serialize: ->
+    {
+      serverState: @serverState
+      jar: @jar
+      serverUrl: @serverUrl
+      dojoId: @dojoId
+      avatar: @avatar
+    }
 
   setKata: (serverUrl, dojoId, avatar) ->
     @serverUrl = serverUrl
@@ -73,8 +82,12 @@ class CyberDojoServer
         finishedCallback(false)
     )
 
+  lights: ->
+    @serverState['lights']
+
   testResult: ->
-    @serverState['lights'][@serverState['lights'].length-1]['colour']
+    lights = @lights()
+    lights[lights.length-1]['colour']
 
   output: ->
     @serverState['visible_files']['output']

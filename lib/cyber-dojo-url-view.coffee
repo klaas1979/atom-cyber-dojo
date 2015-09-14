@@ -3,16 +3,15 @@ module.exports =
 # View to enter the URL to a cyberdojo kata.
 class CyberDojoUrlView extends View
 
-  @activate:(successCallback) -> new CyberDojoUrlView(successCallback)
-
   @content: ->
     @div class: 'cyber-dojo', =>
       @subview 'miniEditor', new TextEditorView(mini: true)
       @div class: 'message', outlet: 'message'
 
-  initialize: (successCallback) ->
+  initialize: (url, successCallback) ->
     @validUrlEnteredCallback = successCallback
     @panel = atom.workspace.addModalPanel(item: this, visible: false)
+    @miniEditor.setText(url || '')
 
     # no close on blur -> stay open till use cancels or confirms
     # @miniEditor.on 'blur', => @close()
@@ -27,7 +26,6 @@ class CyberDojoUrlView extends View
     return unless @panel.isVisible()
 
     miniEditorFocused = @miniEditor.hasFocus()
-    @miniEditor.setText('')
     @panel.hide()
     @restoreFocus() if miniEditorFocused
 
@@ -42,7 +40,7 @@ class CyberDojoUrlView extends View
     url = @miniEditor.getText()
     matched = url.match(urlPattern)
     if matched
-      @validUrlEnteredCallback matched[1], matched[2], matched[3]
+      @validUrlEnteredCallback url, matched[1], matched[2], matched[3]
     else
       atom.notifications?.addError "'#{url}' is not a valid cyber-dojo URL, pattern: #{urlPattern}"
     @close()
