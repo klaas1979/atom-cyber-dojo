@@ -7,9 +7,13 @@ module.exports =
 # did change from initial server state.
 class CyberDojoClient
 
-  constructor: (@settings) ->
+  constructor: (@initialServerState, @settings) ->
     # map with key=filename and value=file content
-    @initialServerState = {}
+    @initialServerState = {} unless @initialServerState
+
+  # Returns the initial state for serialization.
+  getInitialState: ->
+    @initialServerState
 
   # Stores the initial server file state and updates the workspace
   # files on disk.

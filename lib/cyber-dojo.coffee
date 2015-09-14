@@ -22,7 +22,8 @@ module.exports =
   activate: (serializedState) ->
     @cyberDojoSettings = new CyberDojoSettings()
     @cyberDojoServer = new CyberDojoServer()
-    @cyberDojoClient = new CyberDojoClient(@cyberDojoSettings)
+    @cyberDojoClient = new CyberDojoClient(serializedState['clientState'],
+      @cyberDojoSettings)
     @cyberDojoUrlView = new CyberDojoUrlView (server, dojoId, avatar) =>
       @configureKata(server, dojoId, avatar)
 
@@ -63,6 +64,7 @@ module.exports =
 
   # TODO
   serialize: ->
+    { clientState: @cyberDojoClient.getInitialState() }
 
   # Callback method to initialize the current kata.
   # Sets the server URL the dojoId and avatar to use.
