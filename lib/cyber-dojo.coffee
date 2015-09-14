@@ -77,10 +77,10 @@ module.exports =
     server.sync (success, message) =>
       if success
         client.saveState(server.files())
-        view.displaySuccess()
+        atom.notifications.addInfo "Successfully synced kata"
       else
-        view.displayFailure()
         atom.notifications.addError message
+      view.destroy()
 
   # Executes the tests on cyber-dojo-server and displays the result.
   runTests: ->
