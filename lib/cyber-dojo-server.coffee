@@ -6,28 +6,24 @@ class CyberDojoServer
   constructor: (serializedState) ->
     @serverState = serializedState?.serverState || {}
     @jar = serializedState?.jar || request.jar()
-    @serverUrl = serializedState?.serverUrl || null
-    @dojoId = serializedState?.dojoId || null
-    @avatar = serializedState?.avatar || null
+    @kata = serializedState?.kata || null
 
   serialize: ->
     {
       serverState: @serverState
       jar: @jar
-      serverUrl: @serverUrl
-      dojoId: @dojoId
-      avatar: @avatar
+      kata: @kata
     }
 
-  setKata: (serverUrl, dojoId, avatar) ->
-    @serverUrl = serverUrl
-    @dojoId = dojoId
-    @avatar = avatar
+  url: ->
+    kata.url
+
+  setKata: (kata) ->
+    @kata = kata
     console.log "setKata to server=#{serverUrl} DojoID=#{dojoId} avatar=#{avatar}"
 
   sync: (finishedCallback) ->
-    url = "#{@serverUrl}/kata/show_json/#{@dojoId}?avatar=#{@avatar}"
-    request.get({url: url, jar: @jar}, (error, response, body) =>
+    request.get({url: kata_show_json_url(), jar: @jar}, (error, response, body) =>
       if (!error && response.statusCode == 200)
         @serverState = JSON.parse body
         console.log @serverState
@@ -60,9 +56,8 @@ class CyberDojoServer
         formData["file_hashes_outgoing[#{filename}]"] = 0
         formData["file_hashes_incoming[#{filename}]"] = 0
     console.log formData
-    url = "#{@serverUrl}/kata/run_tests/#{@dojoId}?avatar=#{@avatar}"
     options = {
-      url: url,
+      url: kata.run_tests_url,
       jar: @jar,
       headers: {
         'X-CSRF-Token': @serverState['csrf_token'],

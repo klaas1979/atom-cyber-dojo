@@ -29,22 +29,24 @@ module.exports =
 # 6. create some tests for the plugin
 
   activate: (serializedState) ->
+    console.log 'here'
     @subscriptions = new CompositeDisposable
     @cyberDojoSettings = new CyberDojoSettings
     @cyberDojoServer = new CyberDojoServer serializedState.serverState
     @cyberDojoClient = new CyberDojoClient(serializedState.clientState,
       @cyberDojoSettings)
-    @cyberDojoUrlView = new CyberDojoUrlView serializedState.url,
-      (url, server, dojoId, avatar) =>
-        @url = url # TODO put all the server stuff in a single class and use as value object
-        @configureKata(server, dojoId, avatar)
-
+    @cyberDojoUrlView = new CyberDojoUrlView @cyberDojoServer.url,
+      (kata) =>
+        @configureKata(kata)
+    console.log 'here'
     # register commands
     # activates cyber-dojo with a kata url
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:url', =>
       @setupCyberDojoWorkspace()
       @cyberDojoUrlView.toggle()
 
+    console.log 'here'
+    
     # run tests on server and display the results
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:run-tests', =>
       @runTests()
@@ -78,18 +80,17 @@ module.exports =
   # TODO
   serialize: ->
     {
-      url: @url
       clientState: @cyberDojoClient.getInitialState(),
       serverState: @cyberDojoServer.serialize()
     }
 
   # Callback method to initialize the current kata.
   # Sets the server URL the dojoId and avatar to use.
-  configureKata: (serverUrl, dojoId, avatar) ->
+  configureKata: (kata) ->
     client = @cyberDojoClient
     server = @cyberDojoServer
 
-    server.setKata serverUrl, dojoId, avatar
+    server.setKata kata
     view = @displayProgress('sync')
     server.sync (success, message) =>
       if success

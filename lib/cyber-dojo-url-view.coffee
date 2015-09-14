@@ -1,4 +1,6 @@
 {$, TextEditorView, View}  = require 'atom-space-pen-views'
+CyberDojoKata = require './cyber-dojo-kata'
+
 module.exports =
 # View to enter the URL to a cyberdojo kata.
 class CyberDojoUrlView extends View
@@ -30,17 +32,9 @@ class CyberDojoUrlView extends View
     @restoreFocus() if miniEditorFocused
 
   confirm: ->
-    urlPattern = /// ^ # begin of line
-      (http://.*)      # any server with protocol
-      /kata/edit/      # match kata URL edit
-      (\w+)            # match the Dojo ID
-      \?avatar=        # avatar paramater
-      (\w+)            # avatar name
-      $ ///i           # end of line and ignore case
-    url = @miniEditor.getText()
-    matched = url.match(urlPattern)
-    if matched
-      @validUrlEnteredCallback url, matched[1], matched[2], matched[3]
+    kata = CyberDojoKata.forUrl @miniEditor.getText()
+    if kata
+      @validUrlEnteredCallback kata
     else
       atom.notifications?.addError "'#{url}' is not a valid cyber-dojo URL, pattern: #{urlPattern}"
     @close()
