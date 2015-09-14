@@ -14,8 +14,6 @@ Avatar for example *http://cyber-dojo.org/kata/edit/3613A6?avatar=deer*
 4. Start coding, add, rename and delete files.
 5. Execute tests/specs by toggling the command with *ctrl-alt-t* or the menus.
 
-
-
 # Links
 Cyber-Dojo Homepage: [Cyber-Dojo.org][cyber-dojo-org]
 

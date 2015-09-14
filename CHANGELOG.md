@@ -2,6 +2,7 @@
 * serialization of package state implemented
 * changed enter url/toggle to strg+alt+u
 * added ctrl-alt-t as activation command for the plugin
+* Refactoring and started testing
 
 ## 0.2.2 - Fix deleted files are send to cyber-dojo server
 * Deleted files in Atom are not correctly synchronized with server
