@@ -7,7 +7,6 @@ CyberDojoSettings = require './cyber-dojo-settings.coffee'
 CyberDojoServer = require './cyber-dojo-server.coffee'
 
 module.exports =
-
   config:
     workspace:
       type: 'string'
@@ -19,7 +18,6 @@ module.exports =
   cyberDojoUrlView: null
   subscriptions: null
 
-
 # TODO
 # 1. ask to save text editors prior testing -> autosave feature instead
 # 2. open output file and give focus if not open after test and amber/red?
@@ -27,29 +25,28 @@ module.exports =
 # 4. resync with server -> other than 'toggle'
 # 5. waiting for JonJagger to accept pull request with REST API for this package
 # 6. create some tests for the plugin
+# run tests only starts with valid kata check it!
 
   activate: (serializedState) ->
-    console.log 'here'
-    @subscriptions = new CompositeDisposable
-    @cyberDojoSettings = new CyberDojoSettings
+    @subscriptions = new CompositeDisposable()
+    @cyberDojoSettings = new CyberDojoSettings()
     @cyberDojoServer = new CyberDojoServer serializedState.serverState
     @cyberDojoClient = new CyberDojoClient(serializedState.clientState,
       @cyberDojoSettings)
-    @cyberDojoUrlView = new CyberDojoUrlView @cyberDojoServer.url,
-      (kata) =>
+    @cyberDojoUrlView = new CyberDojoUrlView @cyberDojoServer.url(), (kata) =>
         @configureKata(kata)
-    console.log 'here'
     # register commands
     # activates cyber-dojo with a kata url
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:url', =>
-      @setupCyberDojoWorkspace()
-      @cyberDojoUrlView.toggle()
+      @enterUrl()
 
-    console.log 'here'
-    
     # run tests on server and display the results
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:run-tests', =>
       @runTests()
+
+  enterUrl: ->
+    @setupCyberDojoWorkspace()
+    @cyberDojoUrlView.toggle()
 
   # Ensures that user has set a cyber-dojo:workspace in his settings.
   # If no workspace is set the user is ask to select one!
@@ -77,7 +74,6 @@ module.exports =
     @cyberDojoUrlView.destroy()
     @subscriptions.dispose()
 
-  # TODO
   serialize: ->
     {
       clientState: @cyberDojoClient.getInitialState(),
@@ -102,22 +98,25 @@ module.exports =
 
   # Executes the tests on cyber-dojo-server and displays the result.
   runTests: ->
-    view = @displayProgress('runTests')
-    @cyberDojoClient.getState (localState) =>
-      @cyberDojoServer.runTests localState, (success) =>
-        if success
-          @cyberDojoClient.saveState(@cyberDojoServer.files())
-          output = @cyberDojoServer.output()
-          switch @cyberDojoServer.testResult()
-            when 'green'
-              atom.notifications.addSuccess(output)
-            when 'amber'
-              atom.notifications.addWarning(output)
-            when 'red'
-              atom.notifications.addError(output)
-          view.destroy()
-        else
-          view.displayFailure()
+    if @cyberDojoServer.isKataDefined()
+      view = @displayProgress('runTests')
+      @cyberDojoClient.getState (localState) =>
+        @cyberDojoServer.runTests localState, (success) =>
+          if success
+            @cyberDojoClient.saveState(@cyberDojoServer.files())
+            output = @cyberDojoServer.output()
+            switch @cyberDojoServer.testResult()
+              when 'green'
+                atom.notifications.addSuccess(output)
+              when 'amber'
+                atom.notifications.addWarning(output)
+              when 'red'
+                atom.notifications.addError(output)
+            view.destroy()
+          else
+            view.displayFailure()
+    else
+      atom.notifications.addInfo "No Cyber-Dojo URL set, set one prior running the tests"
 
   # Creates a Progess View for asynchronous tasks running on the
   # cyber dojo server.

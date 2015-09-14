@@ -16,6 +16,9 @@ class CyberDojoKata
 
     if matched then new CyberDojoKata url, matched[1], matched[2], matched[3] else null
 
+  valid: ->
+    @url != null && @serverUrl != null && @dojoId != null && @avatar != null
+
   show_json_url: ->
     "#{@serverUrl}/kata/show_json/#{@dojoId}?avatar=#{@avatar}"
 

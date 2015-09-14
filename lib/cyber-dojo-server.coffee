@@ -16,14 +16,16 @@ class CyberDojoServer
     }
 
   url: ->
-    kata.url
+    kata?.url || ''
+
+  isKataDefined: ->
+    @kata?.valid()
 
   setKata: (kata) ->
     @kata = kata
-    console.log "setKata to server=#{serverUrl} DojoID=#{dojoId} avatar=#{avatar}"
 
   sync: (finishedCallback) ->
-    request.get({url: kata_show_json_url(), jar: @jar}, (error, response, body) =>
+    request.get({url: @kata.show_json_url(), jar: @jar}, (error, response, body) =>
       if (!error && response.statusCode == 200)
         @serverState = JSON.parse body
         console.log @serverState
@@ -57,7 +59,7 @@ class CyberDojoServer
         formData["file_hashes_incoming[#{filename}]"] = 0
     console.log formData
     options = {
-      url: kata.run_tests_url,
+      url: @kata.run_tests_url(),
       jar: @jar,
       headers: {
         'X-CSRF-Token': @serverState['csrf_token'],

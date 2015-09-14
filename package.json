@@ -11,8 +11,7 @@
     "Kata"
   ],
   "activationCommands": {
-    "atom-workspace": "cyber-dojo:url",
-    "atom-workspace": "cyber-dojo:run-tests"
+    "atom-workspace": [ "cyber-dojo:run-tests", "cyber-dojo:url" ]
   },
   "repository": "https://github.com/klaas1979/atom-cyber-dojo",
   "license": "MIT",

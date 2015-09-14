@@ -1,5 +1,5 @@
 {$, TextEditorView, View}  = require 'atom-space-pen-views'
-CyberDojoKata = require './cyber-dojo-kata'
+CyberDojoKata = require './cyber-dojo-kata.coffee'
 
 module.exports =
 # View to enter the URL to a cyberdojo kata.
@@ -13,7 +13,7 @@ class CyberDojoUrlView extends View
   initialize: (url, successCallback) ->
     @validUrlEnteredCallback = successCallback
     @panel = atom.workspace.addModalPanel(item: this, visible: false)
-    @miniEditor.setText(url || '')
+    @miniEditor.setText url
 
     # no close on blur -> stay open till use cancels or confirms
     # @miniEditor.on 'blur', => @close()
@@ -36,7 +36,7 @@ class CyberDojoUrlView extends View
     if kata
       @validUrlEnteredCallback kata
     else
-      atom.notifications?.addError "'#{url}' is not a valid cyber-dojo URL, pattern: #{urlPattern}"
+      atom.notifications?.addError "Not a valid URL: '#{@miniEditor.getText()}'"
     @close()
 
   storeFocusedElement: ->
