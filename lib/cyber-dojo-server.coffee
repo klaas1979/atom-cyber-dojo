@@ -4,11 +4,11 @@ module.exports =
 class CyberDojoServer
 
   constructor: (serializedState) ->
-    @serverState = serializedState?['serverState'] || {}
-    @jar = serializedState?['jar'] || request.jar()
-    @serverUrl = serializedState?['serverUrl'] || null
-    @dojoId = serializedState?['dojoId'] || null
-    @avatar = serializedState?['avatar'] || null
+    @serverState = serializedState?.serverState || {}
+    @jar = serializedState?.jar || request.jar()
+    @serverUrl = serializedState?.serverUrl || null
+    @dojoId = serializedState?.dojoId || null
+    @avatar = serializedState?.avatar || null
 
   serialize: ->
     {
@@ -48,10 +48,10 @@ class CyberDojoServer
     formData = { authenticity_token: @serverState['csrf_token'] }
     for filename, data of localState
       formData["file_content[#{filename}]"] = data['content']
-      if data['deleted']
+      if data.deleted
         console.log "'#{filename}' is deleted"
         formData["file_hashes_incoming[#{filename}]"] = 0
-      else if data['changed']
+      else if data.changed
         console.log "'#{filename}' is changed"
         formData["file_hashes_outgoing[#{filename}]"] = 1
         formData["file_hashes_incoming[#{filename}]"] = 0
@@ -83,11 +83,11 @@ class CyberDojoServer
     )
 
   lights: ->
-    @serverState['lights']
+    @serverState.lights
 
   testResult: ->
     lights = @lights()
-    lights[lights.length-1]['colour']
+    lights[lights.length-1].colour
 
   output: ->
-    @serverState['visible_files']['output']
+    @serverState.visible_files.output

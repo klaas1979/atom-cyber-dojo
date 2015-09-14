@@ -1,3 +1,5 @@
+{CompositeDisposable} = require 'atom'
+
 CyberDojoUrlView = require './cyber-dojo-url-view.coffee'
 ProgressElement = require './progress-element.coffee'
 CyberDojoClient = require './cyber-dojo-client.coffee'
@@ -11,6 +13,13 @@ module.exports =
       type: 'string'
       default: 'Cyber-Dojo workspace must be defined'
 
+  cyberDojoSettings: null
+  cyberDojoServer: null
+  cyberDojoClient: null
+  cyberDojoUrlView: null
+  subscriptions: null
+
+
 # TODO
 # 1. ask to save text editors prior testing -> autosave feature instead
 # 2. open output file and give focus if not open after test and amber/red?
@@ -20,23 +29,24 @@ module.exports =
 # 6. create some tests for the plugin
 
   activate: (serializedState) ->
-    @cyberDojoSettings = new CyberDojoSettings()
-    @cyberDojoServer = new CyberDojoServer(serializedState['serverState'])
-    @cyberDojoClient = new CyberDojoClient(serializedState['clientState'],
+    @subscriptions = new CompositeDisposable
+    @cyberDojoSettings = new CyberDojoSettings
+    @cyberDojoServer = new CyberDojoServer serializedState.serverState
+    @cyberDojoClient = new CyberDojoClient(serializedState.clientState,
       @cyberDojoSettings)
-    @cyberDojoUrlView = new CyberDojoUrlView serializedState['url'],
+    @cyberDojoUrlView = new CyberDojoUrlView serializedState.url,
       (url, server, dojoId, avatar) =>
         @url = url # TODO put all the server stuff in a single class and use as value object
         @configureKata(server, dojoId, avatar)
 
     # register commands
     # activates cyber-dojo with a kata url
-    atom.commands.add 'atom-workspace', 'cyber-dojo:toggle', =>
+    @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:url', =>
       @setupCyberDojoWorkspace()
       @cyberDojoUrlView.toggle()
 
     # run tests on server and display the results
-    atom.commands.add 'atom-workspace', 'cyber-dojo:run-tests', =>
+    @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:run-tests', =>
       @runTests()
 
   # Ensures that user has set a cyber-dojo:workspace in his settings.
@@ -63,6 +73,7 @@ module.exports =
 
   deactivate: ->
     @cyberDojoUrlView.destroy()
+    @subscriptions.dispose()
 
   # TODO
   serialize: ->

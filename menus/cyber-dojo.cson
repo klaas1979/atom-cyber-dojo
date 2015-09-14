@@ -10,11 +10,15 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'cyber-dojo'
+      'label': 'Cyber-Dojo'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'cyber-dojo:toggle'
+          'label': 'Enter URL'
+          'command': 'cyber-dojo:url'
+        },
+        {
+          'label': 'Run tests'
+          'command': 'cyber-dojo:run-tests'
         }
       ]
     ]

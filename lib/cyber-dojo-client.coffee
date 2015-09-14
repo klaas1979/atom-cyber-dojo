@@ -58,9 +58,9 @@ class CyberDojoClient
         { filename: file.getBaseName(), content: content }
     Promise.all(fileReadPromises).then (fileContents) ->
       for fileContent in fileContents
-        result[fileContent['filename']] = {
-          content: fileContent['content'],
-          changed: fileContent['content'] != baseFiles[fileContent['filename']]
+        result[fileContent.filename] = {
+          content: fileContent.content,
+          changed: fileContent.content != baseFiles[fileContent.filename]
         }
       callback(result)
 
