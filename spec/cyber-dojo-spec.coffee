@@ -12,15 +12,15 @@ describe "CyberDojo", ->
     workspaceElement = atom.views.getView(atom.workspace)
     activationPromise = atom.packages.activatePackage('cyber-dojo')
 
-  describe "when the cyber-dojo:toggle event is triggered", ->
-    it "hides and shows the modal panel", ->
+  describe "when the cyber-dojo:url event is triggered", ->
+    it "hides and shows the url view", ->
       # Before the activation event the view is not on the DOM, and no panel
       # has been created
       expect(workspaceElement.querySelector('.cyber-dojo')).not.toExist()
 
       # This is an activation event, triggering it will cause the package to be
       # activated.
-      atom.commands.dispatch workspaceElement, 'cyber-dojo:toggle'
+      atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
 
       waitsForPromise ->
         activationPromise
@@ -33,7 +33,7 @@ describe "CyberDojo", ->
 
         cyberDojoPanel = atom.workspace.panelForItem(cyberDojoElement)
         expect(cyberDojoPanel.isVisible()).toBe true
-        atom.commands.dispatch workspaceElement, 'cyber-dojo:toggle'
+        atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
         expect(cyberDojoPanel.isVisible()).toBe false
 
     it "hides and shows the view", ->
