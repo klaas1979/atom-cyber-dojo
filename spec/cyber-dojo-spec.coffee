@@ -1,4 +1,5 @@
 CyberDojo = require '../lib/cyber-dojo'
+temp = require 'temp'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
@@ -13,50 +14,37 @@ describe "CyberDojo", ->
     activationPromise = atom.packages.activatePackage('cyber-dojo')
 
   describe "when the cyber-dojo:url event is triggered", ->
-    it "hides and shows the url view", ->
-      # Before the activation event the view is not on the DOM, and no panel
-      # has been created
-      expect(workspaceElement.querySelector('.cyber-dojo')).not.toExist()
 
-      # This is an activation event, triggering it will cause the package to be
-      # activated.
-      atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
+    describe "and no cyber-dojo.workspace is set", ->
 
-      waitsForPromise ->
-        activationPromise
+      it "opens atom.pickFolder and set picked folder as workspace config", ->
+        tempDir = temp.mkdirSync('a-new-cyberdojo-workspace')
+        spyOn(atom, 'pickFolder').andCallFake (callback) -> callback([tempDir])
 
-      runs ->
-        expect(workspaceElement.querySelector('.cyber-dojo')).toExist()
-
-        cyberDojoElement = workspaceElement.querySelector('.cyber-dojo')
-        expect(cyberDojoElement).toExist()
-
-        cyberDojoPanel = atom.workspace.panelForItem(cyberDojoElement)
-        expect(cyberDojoPanel.isVisible()).toBe true
         atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
-        expect(cyberDojoPanel.isVisible()).toBe false
 
-    it "hides and shows the view", ->
-      # This test shows you an integration test testing at the view level.
+        waitsForPromise -> activationPromise
+        runs ->
+          expect(atom.config.get 'cyber-dojo.workspace').toEqual tempDir
 
-      # Attaching the workspaceElement to the DOM is required to allow the
-      # `toBeVisible()` matchers to work. Anything testing visibility or focus
-      # requires that the workspaceElement is on the DOM. Tests that attach the
-      # workspaceElement to the DOM are generally slower than those off DOM.
-      jasmine.attachToDOM(workspaceElement)
+    describe "and cyber-dojo.workspace is set", ->
 
-      expect(workspaceElement.querySelector('.cyber-dojo')).not.toExist()
+      it "opens the modal panel to enter Kata URL", ->
+        jasmine.attachToDOM(workspaceElement)
 
-      # This is an activation event, triggering it causes the package to be
-      # activated.
-      atom.commands.dispatch workspaceElement, 'cyber-dojo:toggle'
+        tempDir = temp.mkdirSync('a-new-cyberdojo-workspace')
+        atom.config.set 'cyber-dojo.workspace', tempDir
 
-      waitsForPromise ->
-        activationPromise
+        atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
+        waitsForPromise -> activationPromise
+
+        runs ->
+          cyberDojoElement = workspaceElement.querySelector('.cyber-dojo')
+          expect(cyberDojoElement).toBeVisible()
 
       runs ->
         # Now we can test for view visibility
-        cyberDojoElement = workspaceElement.querySelector('.cyber-dojo')
-        expect(cyberDojoElement).toBeVisible()
-        atom.commands.dispatch workspaceElement, 'cyber-dojo:toggle'
-        expect(cyberDojoElement).not.toBeVisible()
+        testsStuffElement = workspaceElement.querySelector('.tests-stuff')
+        expect(testsStuffElement).toBeVisible()
+        atom.commands.dispatch workspaceElement, 'tests-stuff:toggle'
+        expect(testsStuffElement).not.toBeVisible()

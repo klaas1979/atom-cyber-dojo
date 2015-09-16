@@ -38,13 +38,13 @@ module.exports =
     # register commands
     # activates cyber-dojo with a kata url
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:url', =>
-      @enterUrl()
+      @enterKataUrl()
 
     # run tests on server and display the results
     @subscriptions.add atom.commands.add 'atom-workspace', 'cyber-dojo:run-tests', =>
       @runTests()
 
-  enterUrl: ->
+  enterKataUrl: ->
     @setupCyberDojoWorkspace()
     @cyberDojoUrlView.toggle()
 
@@ -74,8 +74,7 @@ module.exports =
     @cyberDojoUrlView.destroy()
     @subscriptions.dispose()
 
-  serialize: ->
-    {
+  serialize: -> {
       clientState: @cyberDojoClient.getInitialState(),
       serverState: @cyberDojoServer.serialize()
     }
@@ -83,14 +82,11 @@ module.exports =
   # Callback method to initialize the current kata.
   # Sets the server URL the dojoId and avatar to use.
   configureKata: (kata) ->
-    client = @cyberDojoClient
-    server = @cyberDojoServer
-
-    server.setKata kata
+    @cyberDojoServer.setKata kata
     view = @displayProgress('sync')
-    server.sync (success, message) =>
+    @cyberDojoServer.sync (success, message) =>
       if success
-        client.saveState(server.files())
+        @cyberDojoClient.saveState(@cyberDojoServer.files())
         atom.notifications.addInfo "Successfully synced kata"
       else
         atom.notifications.addError message

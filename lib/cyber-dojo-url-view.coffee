@@ -56,3 +56,6 @@ class CyberDojoUrlView extends View
       @panel.show()
       @message.text("Enter cyber-dojo kata URL")
       @miniEditor.focus()
+
+  destroy: ->
+    @element.remove()
