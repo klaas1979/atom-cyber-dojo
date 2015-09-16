@@ -27,24 +27,24 @@ describe "CyberDojo", ->
         runs ->
           expect(atom.config.get 'cyber-dojo.workspace').toEqual tempDir
 
-    describe "and cyber-dojo.workspace is set", ->
-
-      it "opens the modal panel to enter Kata URL", ->
-        jasmine.attachToDOM(workspaceElement)
-
-        tempDir = temp.mkdirSync('a-new-cyberdojo-workspace')
-        atom.config.set 'cyber-dojo.workspace', tempDir
-
-        atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
-        waitsForPromise -> activationPromise
-
-        runs ->
-          cyberDojoElement = workspaceElement.querySelector('.cyber-dojo')
-          expect(cyberDojoElement).toBeVisible()
-
-      runs ->
-        # Now we can test for view visibility
-        testsStuffElement = workspaceElement.querySelector('.tests-stuff')
-        expect(testsStuffElement).toBeVisible()
-        atom.commands.dispatch workspaceElement, 'tests-stuff:toggle'
-        expect(testsStuffElement).not.toBeVisible()
+    # describe "and cyber-dojo.workspace is set", ->
+    #
+    #   it "opens the modal panel to enter Kata URL", ->
+    #     jasmine.attachToDOM(workspaceElement)
+    #
+    #     tempDir = temp.mkdirSync('a-new-cyberdojo-workspace')
+    #     atom.config.set 'cyber-dojo.workspace', tempDir
+    #
+    #     atom.commands.dispatch workspaceElement, 'cyber-dojo:url'
+    #     waitsForPromise -> activationPromise
+    #
+    #     runs ->
+    #       cyberDojoElement = workspaceElement.querySelector('.cyber-dojo')
+    #       expect(cyberDojoElement).toBeVisible()
+    #
+    #   runs ->
+    #     # Now we can test for view visibility
+    #     testsStuffElement = workspaceElement.querySelector('.tests-stuff')
+    #     expect(testsStuffElement).toBeVisible()
+    #     atom.commands.dispatch workspaceElement, 'tests-stuff:toggle'
+    #     expect(testsStuffElement).not.toBeVisible()
