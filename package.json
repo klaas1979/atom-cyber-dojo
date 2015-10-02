@@ -1,7 +1,7 @@
 {
   "name": "cyber-dojo",
   "main": "./lib/cyber-dojo",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Practice programming using Atom as editor for Cyber-Dojo.org",
   "keywords": [
     "CyberDojo",
@@ -11,7 +11,10 @@
     "Kata"
   ],
   "activationCommands": {
-    "atom-workspace": [ "cyber-dojo:run-tests", "cyber-dojo:url" ]
+    "atom-workspace": [
+      "cyber-dojo:run-tests",
+      "cyber-dojo:url"
+    ]
   },
   "repository": "https://github.com/klaas1979/atom-cyber-dojo",
   "license": "MIT",
