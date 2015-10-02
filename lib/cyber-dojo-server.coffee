@@ -31,9 +31,9 @@ class CyberDojoServer
         console.log @serverState
         finishedCallback true
       else
-        errorMessage = "'#{url}' response.statusMessage=#{response.statusMessage} " +
-          "response.statusCode=#{response.statusCode} Error=#{error}"
-        console.log message + " , response object:\n"
+        errorMessage = "'#{@kata.show_json_url()}' response.statusMessage=#{response.statusMessage} " +
+          "response.statusCode=#{response.statusCode}\nBody=#{response.body}\nError=#{error}"
+        console.log errorMessage + " , response object:\n"
         console.log response
         finishedCallback false, errorMessage
     )
@@ -63,7 +63,6 @@ class CyberDojoServer
       jar: @jar,
       headers: {
         'X-CSRF-Token': @serverState['csrf_token'],
-        # 'Accept': '*/*' returns standard answer
         'Accept': 'application/json; charset=UTF-8'
       },
       form: formData

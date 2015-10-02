@@ -49,9 +49,7 @@ class CyberDojoUrlView extends View
       atom.views.getView(atom.workspace).focus()
 
   open: ->
-    return if @panel.isVisible()
-
-    if editor = atom.workspace.getActiveTextEditor()
+    unless @panel.isVisible()
       @storeFocusedElement()
       @panel.show()
       @message.text("Enter cyber-dojo kata URL")
